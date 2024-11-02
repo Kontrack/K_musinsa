@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardElevation="4dp"
+    app:cardCornerRadius="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <!-- 이미지 슬라이더 -->
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/image_slider"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- 브랜드명 -->
+        <TextView
+            android:id="@+id/brand_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="브랜드 명"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp"/>
+
+        <!-- 상품명 -->
+        <TextView
+            android:id="@+id/product_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="상품명"
+            android:textSize="14sp"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- 정가 정보 -->
+        <TextView
+            android:id="@+id/normal_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="정가"
+            android:textSize="14sp"
+            android:textColor="@android:color/darker_gray"
+            android:layout_marginBottom="2dp"/>
+
+        <!-- 할인가 정보 -->
+        <TextView
+            android:id="@+id/saled_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="할인가"
+            android:textSize="14sp"
+            android:textColor="@android:color/holo_red_dark"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- 테이블 (스크롤 가능) -->
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fillViewport="true">
+
+            <TableLayout
+                android:id="@+id/spec_table"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:stretchColumns="*"
+                android:shrinkColumns="*"/>
+        </HorizontalScrollView>
+
+        <!-- 첫 번째 드롭다운 (옵션 스피너1) -->
+        <Spinner
+            android:id="@+id/option_spinner1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:prompt="@string/option_prompt_1" />
+
+        <!-- 두 번째 드롭다운 (옵션 스피너2) -->
+        <Spinner
+            android:id="@+id/option_spinner2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:prompt="@string/option_prompt_2" />
+
+        <!-- 세 번째 드롭다운 (옵션 스피너3) -->
+        <Spinner
+            android:id="@+id/option_spinner3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:prompt="@string/option_prompt_3" />
+
+        <!-- 신청 버튼 -->
+        <Button
+            android:id="@+id/apply_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="신청" />
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Musinsa</string>
+    <string name="option_prompt_1">옵션 선택 1</string>
+    <string name="option_prompt_2">옵션 선택 2</string>
+    <string name="option_prompt_3">옵션 선택 3</string>
+</resources>
