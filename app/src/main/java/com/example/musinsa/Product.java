@@ -19,6 +19,7 @@ public class Product {
     public String selected_uniqueId = "";
     public String selected_option1 = "";
     public String selected_option2 = "";
+    public boolean isApplied = false;
 
     public Product(String brandNm, String brand, String prodNm) {
         this.brandName = brandNm;

@@ -103,6 +103,16 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         ImageSliderAdapter imageSliderAdapter = new ImageSliderAdapter(product.imgs);
         holder.imageSlider.setAdapter(imageSliderAdapter);
 
+        // 신청 상태에 따라 버튼 상태 설정
+        if (product.isApplied) {
+            holder.applyButton.setEnabled(false);
+            holder.applyButton.setText("신청 완료");
+            holder.applyButton.setBackgroundColor(Color.LTGRAY); // 회색으로 변경
+        } else {
+            holder.applyButton.setEnabled(true);
+            holder.applyButton.setText("신청");
+        }
+
         // 개별 옵션 스피너 설정
         List<String> optionList = new ArrayList<>();
         optionList.add("옵션을 선택하세요"); // 안내 문구를 첫 번째 옵션으로 추가
@@ -209,30 +219,29 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
         // 신청 버튼 클릭 이벤트
         holder.applyButton.setOnClickListener(v -> {
-            // 신청 데이터가 유효하지 않은지 확인
-            if (product.selected_productName.isEmpty() ||
-                    product.selected_uniqueId.isEmpty() ||
-                    product.selected_option1.isEmpty() ||
-                    ((holder.optionSpinner3.getAdapter().getCount() > 0)) && product.selected_option2.isEmpty()) {
-                // 하나 이상의 필드가 비어있거나 3번 드롭박스의 어댑터가 비어있는 경우
-                Toast.makeText(v.getContext(), "모든 옵션을 선택해주세요.", Toast.LENGTH_SHORT).show();
-            } else {
-                // 모든 필드가 유효할 때 apply 호출
-                sinchung.apply(product, new Sinchung.ApplyCallback() {
-                    @Override
-                    public void onApplySuccess(String message) {
-                        // 버튼 비활성화 및 텍스트 변경
-                        holder.applyButton.setEnabled(false);
-                        holder.applyButton.setText("신청 완료");
-                        holder.applyButton.setBackgroundColor(Color.LTGRAY); // 회색으로 변경
-                        Toast.makeText(v.getContext(), message, Toast.LENGTH_SHORT).show();
-                    }
+            int currentPosition = holder.getAdapterPosition(); // 최신 위치 가져오기
+            if (currentPosition != RecyclerView.NO_POSITION) { // 유효한 위치인지 확인
+                Product currentProduct = productList.get(currentPosition);
+                if (currentProduct.selected_productName.isEmpty() ||
+                        currentProduct.selected_uniqueId.isEmpty() ||
+                        currentProduct.selected_option1.isEmpty() ||
+                        ((holder.optionSpinner3.getAdapter().getCount() > 0) && currentProduct.selected_option2.isEmpty())) {
+                    Toast.makeText(v.getContext(), "모든 옵션을 선택해주세요.", Toast.LENGTH_SHORT).show();
+                } else {
+                    sinchung.apply(currentProduct, new Sinchung.ApplyCallback() {
+                        @Override
+                        public void onApplySuccess(String message) {
+                            currentProduct.isApplied = true;
+                            notifyItemChanged(currentPosition); // 현재 위치를 사용하여 새로고침
+                            Toast.makeText(v.getContext(), message, Toast.LENGTH_SHORT).show();
+                        }
 
-                    @Override
-                    public void onApplyFailure(String message) {
-                        Toast.makeText(v.getContext(), message, Toast.LENGTH_SHORT).show();
-                    }
-                });
+                        @Override
+                        public void onApplyFailure(String message) {
+                            Toast.makeText(v.getContext(), message, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
             }
         });
     }
@@ -242,7 +251,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         return productList.size();
     }
 
-    // ViewHolder 클래스 정의
     public static class ProductViewHolder extends RecyclerView.ViewHolder {
         TextView brandName, productName, normalPrice, saledPrice;
         ViewPager2 imageSlider;
